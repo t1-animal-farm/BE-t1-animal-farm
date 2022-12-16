@@ -12,17 +12,28 @@ class PostController {
     }
   };
 
+  findPost = async (req, res, next) => {
+    try {
+      let post = await this.postService.findPost();
+      return res.status(200).json({ data: post });
+    } catch (err) {
+      return res.status(err.status).json({ errorMessage: err.errorMessage })
+    };
+  }
+
   createPost = async (req, res) => {
     try {
       let userId = req.body.userId
       let text = req.body.text;
-      let images = req.files ?? [];
-      console.log(images)
+      let images = req.body.images;
 
+      // let images = req.files ?? [];
+      // console.log(images)
       await this.postService.createPost(userId, text, images)
       res.status(200).json({ message: '게시글 작성 성공' })
     } catch (err) {
-      res.status(err.status).json({ errorMessage: err.errorMessage })
+      // res.status(err.status).json({ errorMessage: err.errorMessage })
+      return res.status(err.status).json({ errorMessage: err.errorMessage })
     };
   };
 
@@ -34,7 +45,7 @@ class PostController {
       images = req.body.images;
 
       await this.postService.updatePost(postId, userId, text, images);
-
+      res.status(200).json({ message: '게시글 작성 성공' });
     } catch (err) {
       res.status(err.status).json({ errorMessage: err.errorMessage })
     };
