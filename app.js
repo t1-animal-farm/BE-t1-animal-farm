@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 const cookieParser = require('cookie-parser');
 
 const { sequelize } = require('./models');
+const indexRouter = require("./routes/index.js")
 // const postRouter = require("./routes/post"); 라우터 불러오는 곳은 여기
 
 const app = express();
@@ -23,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // app.use('/posts', postRouter); 라우터 연결은 이곳
-
+app.use('/api', indexRouter)
 
 
 app.listen(app.get('port'), () => {
