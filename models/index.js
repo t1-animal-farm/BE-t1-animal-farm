@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-
+const Post = require('./post');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
@@ -12,9 +12,7 @@ db.sequelize = sequelize;
 db.Post = Post;
 // 여기에다가 db객체에 모델들을 넣어주세요.
 
-
 Post.init(sequelize);
 // 여기다가 각 모델의 init함수에 sequelize객체를 연결해주세요.
-
 
 module.exports = db;
