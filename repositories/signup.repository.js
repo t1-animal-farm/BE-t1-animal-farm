@@ -13,7 +13,7 @@ class SignupRepository {
       nickname,
       password: hashedPassword,
     });
-    console.log('signup: ', signup);
+
     return signup;
   };
 }
