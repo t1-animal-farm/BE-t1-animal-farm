@@ -1,6 +1,6 @@
 const SignupRepository = require('../repositories/signup.repository');
 const { User } = require('../models');
-const crypto = require('bcrypt');
+const bcrypt = require('bcrypt');
 class SignupService {
   signupRepository = new SignupRepository(User);
   /** 중복확인 비지니스 로직:
@@ -18,16 +18,18 @@ class SignupService {
       return true;
     }
   };
+
   /** DB 검증: email, nickname은 unique type으로 설정 함
    * password bcrypt 라이브러리 사용해서 보안을 강화 한다
    */
+
   registerUser = async (email, nickname, password) => {
-    try {
-      await this.signupRepository.registerUser(email, nickname, password);
-      return true;
-    } catch (error) {
-      return res.status(400).json({ errorMessage: '알수 없는 에러 발생' });
-    }
+    const hashedPassword = await bcrypt.hash(password, 6);
+    const registerConfirm = await this.signupRepository.registerUser(
+      email,
+      nickname,
+      hashedPassword
+    );
   };
 }
 module.exports = SignupService;
