@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv').config();
 const cookieParser = require('cookie-parser');
+const commentRouter = require('./routes/comments.routes');
 
 const { sequelize } = require('./models');
 const indexRouter = require('./routes/index');
@@ -18,6 +19,7 @@ sequelize
     console.log(err);
   });
 
+// app.use(cors({ origin: 'http://localhost:3000'}));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -1,15 +1,23 @@
 const Sequelize = require('sequelize');
 
-module.exports = class Post extends Sequelize.Model {
+module.exports = class Image extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
-      postId: {
+      imageId: {
         primaryKey: true,
         type: Sequelize.INTEGER,
         autoIncrement: true,
       },
-      text: {
-        type: Sequelize.STRING(45),
+      postId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      imageUrl: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      fileName: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       created_at: {
@@ -17,20 +25,13 @@ module.exports = class Post extends Sequelize.Model {
         allowNull: false,
         defaultValue: Sequelize.NOW,
       },
-      userId: {
-        type: Sequelize.INTEGER(45),
-        allowNull: false,
-      },
-      // imageId: {
-      //   type: Sequelize.INTEGER(45),
-      //   allowNull: false,
-      // }
+
     },
       {
         sequelize,
         timestamps: false,
-        modelName: 'Post',
-        tableName: 'posts',
+        modelName: 'Image',
+        tableName: 'images',
         paranoid: false,
         charset: 'utf8',
         collate: 'utf8_general_ci',

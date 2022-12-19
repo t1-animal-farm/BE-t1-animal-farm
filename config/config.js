@@ -4,7 +4,7 @@ module.exports = {
   development: {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PW,
-    database: 'database',
+    database: 'sparta_week6_dev',
     host: process.env.DB_HOST,
     dialect: 'mysql',
   },
