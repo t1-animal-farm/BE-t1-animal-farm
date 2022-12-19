@@ -2,9 +2,7 @@ const { S3 } = require('aws-sdk');
 const fs = require('fs');
 
 
-module.exports = uploadImageToS3 = async (images) => {
-  let url = [];
-
+module.exports = deleteImageToS3 = async (images) => {
   const s3 = new S3({
     accessKeyId: 'AKIARZNSTIKGG4JETEYJ',
     secretAccessKey: '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',
@@ -14,9 +12,9 @@ module.exports = uploadImageToS3 = async (images) => {
   const promiseList = images.map((file) => {
     const fileStream = fs.createReadStream(file.path);
 
-    // fs.unlink(`uploads/${file.filename}`, (err) => {
-    //   if (err) throw err;
-    // })
+    fs.unlink(`uploads/${file.filename}`, (err) => {
+      if (err) throw err;
+    })
 
     return s3.upload({
       Bucket: 'testinstabucket',
@@ -28,10 +26,9 @@ module.exports = uploadImageToS3 = async (images) => {
   });
 
   const result = await Promise.all(promiseList);
-
+  console.log(result)
   result.map(v => {
-    url.push({ location: v.Location, fileName: v.key })
+    url.push(v.Location)
   })
-  console.log(url)
   return url
 }

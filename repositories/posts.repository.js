@@ -1,54 +1,87 @@
 const Post = require('../models/post');
+const Image = require('../models/image');
+const deleteImageToS3 = require('../middlewares/deleteImageToS3');
 
 class PostRepository {
   findAllPost = async () => {
     try {
+
       let allPost = await Post.findAll();
-      return allPost;
+      let allImage = await Image.findAll();
+      return { allPost, allImage };
     } catch (err) {
       throw err;
     }
   };
 
-  findPost = async () => {
+  findPost = async (postId) => {
     try {
-      let data = await Post.findOne({
+      let image = await Image.findAll({
         where: {
-
+          postId: postId
         }
       });
-      return data;
+      let post = await Post.findOne({
+        where: {
+          postId: postId
+        }
+      });
+      return { post, image };
     } catch (err) {
       throw err;
     };
   };
 
-  createPost = async (userId, text, images) => {
+  createPost = async (userId, text, imageUrlName) => {
     try {
-      let post = await Post.create({ userId, text, images })
-      console.log(post);
-      return post
+      console.log('hi')
+      let post = await Post.create({ userId, text })
+
+      imageUrlName.map(v => {
+        Image.create({
+          postId: post.dataValues.postId,
+          imageUrl: v.location,
+          fileName: v.fileName
+        })
+      })
+      return post;
     } catch (err) {
       throw err;
     };
   };
 
-  updatePost = async () => {
+  updatePost = async (postId, userId, text, images) => {
     try {
-      let post = await Post.update({})
-      return post
+
+      let post = await Post.update({});
+      return post;
+
     } catch (err) {
       throw err;
     };
   };
 
-  deletePost = async () => {
+  deletePost = async (postId) => {
     try {
-      return await Post.destroy({})
+      return await Post.destroy({
+        where: {
+          postId: postId
+        }
+      })
     } catch (err) {
       throw err;
-    }
+    };
+  };
+
+  deleteImages = async (postId) => {
+    const images = await Image.destroy({
+      where: {
+        postId: postId
+      }
+    });
+
+    return images
   }
-}
+};
 
 module.exports = PostRepository;

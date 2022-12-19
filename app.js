@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require("morgan");
 const dotenv = require('dotenv').config();
 const cookieParser = require('cookie-parser');
+const path = require('path')
 
 const { sequelize } = require('./models');
 const indexRouter = require("./routes/index.js")
@@ -18,12 +19,16 @@ sequelize.sync({ force: false })
     console.log(err)
   })
 
+app.use(express.static('uploads'))
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // app.use('/posts', postRouter); 라우터 연결은 이곳
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '/index.html'))
+})
 app.use('/api', indexRouter)
 
 
