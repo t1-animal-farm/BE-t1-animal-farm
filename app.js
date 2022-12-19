@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv').config();
 const cookieParser = require('cookie-parser');
+const bycrypt = require('bcrypt');
 
 const { sequelize } = require('./models');
 const indexRouter = require('./routes/index');

@@ -6,7 +6,6 @@ class LoginController {
     try {
       const { email, password } = req.body;
       const loginValidation = await this.loginService.login(email, password);
-      // const jwt = await this.loginService.login(loginValidation);
       return res
         .status(201)
         .json({ message: '로그인 성공', token: loginValidation });

@@ -6,6 +6,7 @@ class SignupRepository {
 
     return check;
   };
+  /** 해싱된 비밀번호가 데이터베이스에 저장된다  */
   registerUser = async (email, nickname, password) => {
     try {
       const signup = await User.create({ email, nickname, password });
