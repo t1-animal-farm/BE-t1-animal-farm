@@ -1,22 +1,18 @@
 const { S3 } = require('aws-sdk');
 const fs = require('fs');
-
+require('dotenv').config();
 
 module.exports = uploadImageToS3 = async (images) => {
   let url = [];
 
   const s3 = new S3({
-    accessKeyId: 'AKIARZNSTIKGG4JETEYJ',
-    secretAccessKey: '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',
+    accessKeyId: process.env.ACCESSKEYID,
+    secretAccessKey: process.env.SECRETACCESSKEY,
     region: 'ap-northeast-2',
   });
 
   const promiseList = images.map((file) => {
     const fileStream = fs.createReadStream(file.path);
-
-    // fs.unlink(`uploads/${file.filename}`, (err) => {
-    //   if (err) throw err;
-    // })
 
     return s3.upload({
       Bucket: 'testinstabucket',
@@ -27,11 +23,25 @@ module.exports = uploadImageToS3 = async (images) => {
       .promise();
   });
 
+  // images.map((file) => {
+  //   fs.unlink(`uploads/${file.originalname}`, (err) => {
+
+  //     if (err) throw err;
+  //   })
+  // })
+
+  fs.rmdir('uploads/', { recursive: true }, (err) => {
+    if (err) {
+      console.log(err)
+    }
+  })
+
   const result = await Promise.all(promiseList);
 
+  console.log('url', result);
   result.map(v => {
     url.push({ location: v.Location, fileName: v.key })
-  })
-  console.log(url)
+  });
+
   return url
 }

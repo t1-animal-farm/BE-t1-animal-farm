@@ -40,10 +40,11 @@ class PostController {
 
   updatePost = async (req, res) => {
     try {
+
       let postId = req.params.postId;
-      let userId = res.locals.user.userId;
+      let userId = req.body.userId;
       let text = req.body.text;
-      let images = req.body.images;
+      let images = req.files ?? [];
 
       await this.postService.updatePost(postId, userId, text, images);
       res.status(200).json({ message: '게시글 작성 성공' });

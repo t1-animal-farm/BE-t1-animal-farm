@@ -50,10 +50,17 @@ class PostRepository {
     };
   };
 
-  updatePost = async (postId, userId, text, images) => {
+  updatePost = async (postId, userId, text, imageUrlName) => {
     try {
 
-      let post = await Post.update({});
+      let post = await Post.create({ postId, userId, text })
+      imageUrlName.map(v => {
+        Image.create({
+          postId: post.dataValues.postId,
+          imageUrl: v.location,
+          fileName: v.fileName
+        })
+      })
       return post;
 
     } catch (err) {
@@ -80,6 +87,15 @@ class PostRepository {
       }
     });
 
+    return images
+  }
+
+  findAllImage = async (postId) => {
+    const images = await Image.findAll({
+      where: {
+        postId: postId
+      }
+    });
     return images
   }
 };

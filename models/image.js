@@ -13,11 +13,11 @@ module.exports = class Image extends Sequelize.Model {
         allowNull: false,
       },
       imageUrl: {
-        type: Sequelize.STRING(),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       fileName: {
-        type: Sequelize.STRING(),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       created_at: {

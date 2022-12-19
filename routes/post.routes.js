@@ -13,7 +13,7 @@ const upload = multer({
     },
     filename: function (req, file, cb) {
       const ext = path.extname(file.originalname)
-      cb(null, path.basename(file.originalname, ext) + '-' + Date.now() + ext)
+      cb(null, file.originalname)
     },
   }),
   limits: {
@@ -25,7 +25,7 @@ const upload = multer({
 router.get('/', postController.findAllPost);
 router.post('/', upload.array('images', 5), postController.createPost);
 router.get('/:postId', postController.findPost);
-router.put('/:postId', postController.updatePost);
+router.put('/:postId', upload.array('images', 5), postController.updatePost);
 router.delete('/:postId', postController.deletePost);
 
 module.exports = router

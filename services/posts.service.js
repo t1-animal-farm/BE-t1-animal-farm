@@ -1,6 +1,7 @@
 const PostRepository = require('../repositories/posts.repository.js');
 const { validatePost } = require('../middlewares/post.validate.js')
 const uploadImageToS3 = require('../middlewares/uploadImageToS3.js');
+const deleteImageToS3 = require('../middlewares/deleteImageToS3.js');
 
 class PostService {
   postRepository = new PostRepository();
@@ -65,7 +66,15 @@ class PostService {
 
   updatePost = async (postId, userId, text, images) => {
     try {
+      console.log('hihi')
       validatePost(text);
+
+      let imagesFileName = await this.postRepository.findAllImage({
+        where: {
+          postId,
+        }
+      })
+
       await this.postRepository.deleteImages(postId);
       await this.postRepository.deletePost(postId)
       let imageUrlName = await uploadImageToS3(images)
@@ -79,7 +88,7 @@ class PostService {
   deletePost = async (postId) => {
     try {
       await this.postRepository.deleteImages(postId);
-
+      await deleteImageToS3();
       return await this.postRepository.deletePost(postId);
     } catch (err) {
       throw err;
