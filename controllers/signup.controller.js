@@ -17,23 +17,6 @@ class SignupController {
     }
   };
   /**이메일, 닉네임, 비밀번호 형식, 비밀번호확인 검증  */
-  // validateRegister = async (req, res, next) => {
-  //   const { password, confirmPassword } = req.body;
-
-  //   try {
-  //     if (password !== confirmPassword) {
-  //       const error = new Error();
-  //       error.status = 412;
-  //       throw error;
-  //     }
-  //     if (password === confirmPassword) {
-  //       return res.status(200).json(true);
-  //     }
-  //   } catch (error) {
-  //     return res.status(error.status || 500);
-  //   }
-  // };
-
   registerUser = async (req, res, next) => {
     const { email, nickname, password, confirmPassword } = req.body;
     console.log(
