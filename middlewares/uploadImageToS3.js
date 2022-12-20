@@ -1,29 +1,47 @@
+const { S3 } = require('aws-sdk');
+const fs = require('fs');
+require('dotenv').config();
+
 module.exports = uploadImageToS3 = async (images) => {
+  let url = [];
+
   const s3 = new S3({
-    accessKeyId: 'AWS 엑세스 키',
-    secretAccessKey: 'AWS 시크릿 키',
-    region: '버킷이 있는 지역',
+    accessKeyId: process.env.ACCESSKEYID,
+    secretAccessKey: process.env.SECRETACCESSKEY,
+    region: 'ap-northeast-2',
   });
 
   const promiseList = images.map((file) => {
     const fileStream = fs.createReadStream(file.path);
 
     return s3.upload({
-      Bucket: '버킷이름',
+      Bucket: 'testinstabucket',
       // 파일명
-      Key: `uploads/${file.originalname}`,
+      Key: `${file.originalname}`,
       Body: fileStream,
     })
       .promise();
   });
 
+  // images.map((file) => {
+  //   fs.unlink(`uploads/${file.originalname}`, (err) => {
+
+  //     if (err) throw err;
+  //   })
+  // })
+
+  fs.rmdir('uploads/', { recursive: true }, (err) => {
+    if (err) {
+      console.log(err)
+    }
+  })
+
   const result = await Promise.all(promiseList);
 
-  for (let i = 0; i < files.length; i++) {
-    fs.unlink(files[i].path, (err) => {
-      if (err) throw err;
-    });
-  }
+  console.log('url', result);
+  result.map(v => {
+    url.push({ location: v.Location, fileName: v.key })
+  });
 
-  return result;
+  return url
 }

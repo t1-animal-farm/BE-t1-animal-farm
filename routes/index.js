@@ -1,8 +1,13 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const signupRouter = require('./signup.routes');
+const loginRouter = require('./login.routes');
+const commentsRouter = require('./comments.routes');
+const postRouter = require('./post.routes');
 
-const postRouter = require("./post");
-
+router.use('/signup', signupRouter);
+router.use('/login/', loginRouter);
+router.use('/comments', commentsRouter);
 router.use('/posts', postRouter);
 
-module.exports = router
+module.exports = router;

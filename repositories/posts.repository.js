@@ -1,48 +1,104 @@
-const ErrorMiddleware = require('../middlewares/errorMiddleware');
+
+const Post = require('../models/post');
+const Image = require('../models/image');
+const deleteImageToS3 = require('../middlewares/deleteImageToS3');
 
 class PostRepository {
-  constructor(Post) {
-    this.postModel = Post;
-  };
-
   findAllPost = async () => {
     try {
-      let allPost = await this.postModel.findAll({});
-      return allPost;
-    } catch (err) {
-      const errorMiddleware = new ErrorMiddleware(500, 'DB 오류');
-      throw errorMiddleware;
-    }
 
+      let allPost = await Post.findAll();
+      let allImage = await Image.findAll();
+      return { allPost, allImage };
+    } catch (err) {
+      throw err;
+    }
   };
 
-  createPost = async (userId, text, images) => {
+  findPost = async (postId) => {
     try {
-      return await this.postModel.createPost({
-        userId, text, images
+      let image = await Image.findAll({
+        where: {
+          postId: postId
+        }
       });
+      let post = await Post.findOne({
+        where: {
+          postId: postId
+        }
+      });
+      return { post, image };
     } catch (err) {
-      const errorMiddleware = new ErrorMiddleware(500, 'DB 오류');
-      throw errorMiddleware;
+      throw err;
     };
   };
 
-  updatePost = async (text, images) => {
+  createPost = async (userId, text, imageUrlName) => {
     try {
+      console.log('hi')
+      let post = await Post.create({ userId, text })
 
+      imageUrlName.map(v => {
+        Image.create({
+          postId: post.dataValues.postId,
+          imageUrl: v.location,
+          fileName: v.fileName
+        })
+      })
+      return post;
     } catch (err) {
-
-    }
-  };
-
-  deletePost = async () => {
-    try {
-
-    } catch (err) {
-
+      throw err;
     };
   };
 
-}
+  updatePost = async (postId, userId, text, imageUrlName) => {
+    try {
+
+      let post = await Post.create({ postId, userId, text })
+      imageUrlName.map(v => {
+        Image.create({
+          postId: post.dataValues.postId,
+          imageUrl: v.location,
+          fileName: v.fileName
+        })
+      })
+      return post;
+
+    } catch (err) {
+      throw err;
+    };
+  };
+
+  deletePost = async (postId) => {
+    try {
+      return await Post.destroy({
+        where: {
+          postId: postId
+        }
+      })
+    } catch (err) {
+      throw err;
+    };
+  };
+
+  deleteImages = async (postId) => {
+    const images = await Image.destroy({
+      where: {
+        postId: postId
+      }
+    });
+
+    return images
+  }
+
+  findAllImage = async (postId) => {
+    const images = await Image.findAll({
+      where: {
+        postId: postId
+      }
+    });
+    return images
+  }
+};
 
 module.exports = PostRepository;
