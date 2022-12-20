@@ -1,6 +1,8 @@
 const SignupRepository = require('../repositories/signup.repository');
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
+const ErrorMiddleware = require('../middlewares/errorMiddleware');
+
 class SignupService {
   signupRepository = new SignupRepository(User);
   /** 중복확인 비지니스 로직:
@@ -10,11 +12,14 @@ class SignupService {
 
   checkId = async (email) => {
     const existId = await this.signupRepository.checkId(email);
-    console.log('existId: ', typeof existId);
 
     if (existId) {
-      return false;
-    } else if (!existId) {
+      const errorMiddleware = new ErrorMiddleware(
+        400,
+        '중복된 이메일이 존재합니다'
+      );
+      throw errorMiddleware;
+    } else if (existId === null) {
       return true;
     }
   };
@@ -23,13 +28,26 @@ class SignupService {
    * password bcrypt 라이브러리 사용해서 보안을 강화 한다
    */
 
-  registerUser = async (email, nickname, password) => {
+  registerUser = async (email, nickname, password, confirmPassword) => {
+    const existId = await this.signupRepository.findOne(nickname, email);
+    if (existId) {
+      const errorMiddleware = new ErrorMiddleware(
+        400,
+        '중복된 아이디 또는 닉네임이 존재합니다'
+      );
+      throw errorMiddleware;
+    }
+    if (password !== confirmPassword) {
+      const errorMiddleware = new ErrorMiddleware(
+        400,
+        '비밀번호가 일치하지 않습니다'
+      );
+      throw errorMiddleware;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 6);
-    const registerConfirm = await this.signupRepository.registerUser(
-      email,
-      nickname,
-      hashedPassword
-    );
+    await this.signupRepository.registerUser(email, nickname, hashedPassword);
+    return true;
   };
 }
 module.exports = SignupService;
