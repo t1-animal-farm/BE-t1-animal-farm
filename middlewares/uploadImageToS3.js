@@ -31,11 +31,11 @@ module.exports = uploadImageToS3 = async (images) => {
   //   })
   // })
 
-  fs.rmdir('uploads/', { recursive: true }, (err) => {
-    if (err) {
-      console.log(err)
-    }
-  })
+  // fs.rmdir('uploads/', { recursive: true }, (err) => {
+  //   if (err) {
+  //     console.log(err)
+  //   }
+  // })
 
   const result = await Promise.all(promiseList);
 
