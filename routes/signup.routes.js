@@ -5,5 +5,5 @@ const SignupController = require('../controllers/signup.controller');
 const signupController = new SignupController();
 
 router.post('/', signupController.registerUser);
-router.post('/checkId/:email', signupController.checkId);
+router.post('/checkId/', signupController.checkId);
 module.exports = router;

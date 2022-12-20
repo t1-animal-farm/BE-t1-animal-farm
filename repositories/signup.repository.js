@@ -2,17 +2,24 @@ const { User } = require('../models');
 
 class SignupRepository {
   checkId = async (email) => {
-    const check = await User.findOne({ where: { email } });
+    console.log('email): ', email);
 
-    return check;
+    const isExist = await User.findOne({ where: { email } });
+    return isExist;
   };
-  registerUser = async (email, nickname, password) => {
-    try {
-      const signup = await User.create({ email, nickname, password });
-      return signup;
-    } catch (error) {
-      return res.status(400).json({ errorMessage: '알수 없는 에러 발생 ' });
-    }
+  /** 해싱된 비밀번호가 데이터베이스에 저장된다  */
+  registerUser = async (email, nickname, hashedPassword) => {
+    const signup = await User.create({
+      email,
+      nickname,
+      password: hashedPassword,
+    });
+
+    return signup;
+  };
+  findOne = async (nickname, email) => {
+    const isExist = await User.findOne({ where: { nickname, email } });
+    return isExist;
   };
 }
 

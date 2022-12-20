@@ -20,7 +20,7 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.STRING(45),
         },
         password: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.STRING(60),
           allowNull: false,
         },
       },

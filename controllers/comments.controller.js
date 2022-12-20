@@ -29,7 +29,7 @@ exports.insertComment = async (req, res) => {
     //         return res.status(412).send({ errorMessage: '로그인 후 이용해주세요.' });
     // }
 
-    await commentService.insertComment(post.id, comment, nickname);
+    let comments = commentService.insertComment(post.id, comment, nickname);
 
     res.sendStatus(200);
 };

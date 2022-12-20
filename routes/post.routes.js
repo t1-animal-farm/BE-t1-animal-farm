@@ -3,6 +3,8 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 
+const authMiddleware = require('../middlewares/authMiddleware');
+
 const PostController = require("../controllers/posts.controller");
 const postController = new PostController();
 
@@ -22,9 +24,9 @@ const upload = multer({
 
 
 router.get('/', postController.findAllPost);
-router.post('/', upload.array('images', 5), postController.createPost);
+router.post('/', authMiddleware, upload.array('images', 5), postController.createPost);
 router.get('/:postId', postController.findPost);
-router.put('/:postId', upload.array('images', 5), postController.updatePost);
-router.delete('/:postId', postController.deletePost);
+router.put('/:postId', authMiddleware, upload.array('images', 5), postController.updatePost);
+router.delete('/:postId', authMiddleware, postController.deletePost);
 
 module.exports = router

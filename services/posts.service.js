@@ -66,7 +66,6 @@ class PostService {
 
   updatePost = async (postId, userId, text, images) => {
     try {
-      console.log('hihi')
       validatePost(text);
 
       let imagesFileName = await this.postRepository.findAllImage({

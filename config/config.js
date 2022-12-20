@@ -4,8 +4,8 @@ module.exports = {
   development: {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PW,
-    database: 'sparta_week6_dev',
-    host: process.env.DB_HOST,
+    database: 'sparta_week6_test',
+    host: 'express-database.cmolhyykqhlv.ap-northeast-2.rds.amazonaws.com',
     dialect: 'mysql',
   },
 
