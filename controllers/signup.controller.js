@@ -6,19 +6,31 @@ class SignupController {
    * 이메일이 중복이면 result: false
    *  중복이 없으면 result :true 반환  **/
   checkId = async (req, res, next) => {
-    const { email } = req.params;
+    const { email } = req.body;
     console.log('controller email', email);
     try {
-      const check = await this.signupService.checkId(email);
+      const data = await this.signupService.checkId(email);
 
-      return res.status(200).json({ check });
+      return res.status(200).json({ result: data });
     } catch (error) {
       return res.status(400).json({ errorMessage: '알수 없는 에러 발생' });
     }
   };
+  /**이메일, 닉네임, 비밀번호 형식, 비밀번호확인 검증  */
   registerUser = async (req, res, next) => {
-    const { email, nickname, password } = req.body;
-    console.log('email, nickname, password', email, nickname, password);
+    const { email, nickname, password, confirmPassword } = req.body;
+    console.log(
+      'email, nickname, password',
+      email,
+      nickname,
+      password,
+      confirmPassword
+    );
+    if (password !== confirmPassword) {
+      return res
+        .status(412)
+        .json({ errorMessage: '비밀번호가 일치 하지 않습니다' });
+    }
     try {
       const signup = await this.signupService.registerUser(
         email,
@@ -29,9 +41,7 @@ class SignupController {
       return res.status(201).json({ message: '성공' });
     } catch (error) {
       console.log('error: ', error);
-      return res
-        .status(412)
-        .json({ errorMessage: '이미 가입된 이메일 입니다' });
+      return res.status(500).json({ errorMessage: '알수 없는 에러 발생' });
     }
   };
 }
