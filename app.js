@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv').config();
 const cookieParser = require('cookie-parser');
+const cors = require("cors");
 
 const { sequelize } = require('./models');
 const indexRouter = require('./routes/index');
@@ -22,6 +23,8 @@ const corsOption = {
   origin: ["http://localhost:3000", "*"],
   credentials: true,
 };
+
+app.use(cors(corsOption));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
