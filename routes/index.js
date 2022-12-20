@@ -8,8 +8,6 @@ const postRouter = require('./post.routes');
 
 router.use('/signup/', signupRouter);
 router.use('/login/', loginRouter);
-router.use('/logout/', logoutRouter);
-router.use('/main/', mainRouter);
 router.use('/comments', commentsRouter);
 router.use('/posts', postRouter);
 
