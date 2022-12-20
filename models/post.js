@@ -21,10 +21,7 @@ module.exports = class Post extends Sequelize.Model {
         type: Sequelize.INTEGER(45),
         allowNull: false,
       },
-      // imageId: {
-      //   type: Sequelize.INTEGER(45),
-      //   allowNull: false,
-      // }
+
     },
       {
         sequelize,

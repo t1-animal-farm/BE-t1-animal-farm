@@ -35,7 +35,7 @@ class PostRepository {
 
   createPost = async (userId, text, imageUrlName) => {
     try {
-      console.log('hi')
+
       let post = await Post.create({ userId, text })
 
       imageUrlName.map(v => {

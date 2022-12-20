@@ -13,6 +13,7 @@ module.exports = uploadImageToS3 = async (images) => {
 
   const promiseList = images.map((file) => {
     const fileStream = fs.createReadStream(file.path);
+    // buffer, stream
 
     return s3.upload({
       Bucket: 'testinstabucket',

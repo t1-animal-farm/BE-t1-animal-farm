@@ -18,7 +18,10 @@ sequelize
     console.log(err);
   });
 
-// app.use(cors({ origin: 'http://localhost:3000'}));
+const corsOption = {
+  origin: ["http://localhost:3000", "*"],
+  credentials: true,
+};
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

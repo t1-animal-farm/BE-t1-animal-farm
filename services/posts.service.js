@@ -55,7 +55,6 @@ class PostService {
   createPost = async (userId, text, images) => {
     try {
       // let postId = Math.random().toString(36).substring(2, 15);
-
       validatePost(text);
       let imageUrlName = await uploadImageToS3(images)
       return await this.postRepository.createPost(userId, text, imageUrlName);

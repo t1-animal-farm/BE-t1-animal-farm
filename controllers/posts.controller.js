@@ -9,7 +9,7 @@ class PostController {
     try {
       let allPostImage = await this.postService.findAllPost();
       return res.status(200).json({ data: allPostImage })
-    } catch {
+    } catch (err) {
       return res.status(500).json({ errorMessage: '알 수 없는 오류' })
     }
   };
