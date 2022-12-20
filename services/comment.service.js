@@ -1,11 +1,13 @@
 const db = require('../models/index');
 
 exports.insertComment = async (postId, comment, nickname) => {
-    await db.Comment.create({
+
+    let comments = await db.Comment.create({
         postId: postId,
         comment: comment,
         nickname: nickname
     });
+    return comments;
 }
 
 exports.findAllCommentsByPostId = async (postId) => {
@@ -22,7 +24,7 @@ exports.findCommentByPk = async (commentId) => {
 }
 
 exports.updateCommentById = async (commentId, commentContents) => {
-    await db.Comment.update({
+    return await db.Comment.update({
         comment: commentContents
     }, {
         where: {

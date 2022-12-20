@@ -3,8 +3,8 @@ const commentService = require('../services/comment.service');
 
 exports.insertComment = async (req, res) => {
     const postId = req.params.postId;
-    const email = req.body.email;
-    const nickname = req.body.nickname;
+    const email = res.locals.user.email;
+    const nickname = res.locals.user.nickname;
     const comment = req.body.comment;
 
     if (email == null) {
@@ -23,15 +23,9 @@ exports.insertComment = async (req, res) => {
     if (post == null) {
         return res.status(400).send({ errorMessage: '포스트가 존재하지 않습니다.' });
     }
+    let comments = await commentService.insertComment(post.postId, comment, nickname);
 
-    // 현재 로그인 기능은 없으니 추후에 로그인 체크 후 에러 발생시킨다.
-    // if (로그인이 안되어있으면) {
-    //         return res.status(412).send({ errorMessage: '로그인 후 이용해주세요.' });
-    // }
-
-    let comments = commentService.insertComment(post.id, comment, nickname);
-
-    res.sendStatus(200);
+    res.status(200).json({ comments: comments });
 };
 
 exports.findComment = async (req, res) => {
@@ -64,9 +58,9 @@ exports.updateComment = async (req, res) => {
         return res.status(400).send({ errorMessage: '코멘트 아이디에 해당하는 코멘트가 존재하지 않습니다.' });
     }
 
-    await commentService.updateCommentById(commentId, commentContents);
+    let comments = await commentService.updateCommentById(commentId, commentContents);
 
-    res.sendStatus(200);
+    res.status(200).json({ message: "변경 성공" });
 }
 
 exports.deleteComment = async (req, res) => {
@@ -83,6 +77,6 @@ exports.deleteComment = async (req, res) => {
     }
 
     await comment.destroy();
-    res.sendStatus(200);
+    res.status(200).json({ message: "삭제 성공" });
 }
 
