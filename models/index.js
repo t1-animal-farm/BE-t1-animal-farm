@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize');
 const Post = require('./post');
-
 const Image = require('./image');
-
 const Comment = require('./comment');
 const User = require('./user');
 
