@@ -12,7 +12,6 @@ const upload = multer({
       cb(null, './uploads')
     },
     filename: function (req, file, cb) {
-      const ext = path.extname(file.originalname)
       cb(null, file.originalname)
     },
   }),
