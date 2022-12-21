@@ -9,7 +9,7 @@ const indexRouter = require('./routes/index');
 
 const app = express();
 
-app.set('port', process.env.PORT || 3005);
+app.set('port', process.env.PORT || 3000);
 sequelize
   .sync({ force: false })
   .then(() => {
