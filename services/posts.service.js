@@ -35,7 +35,7 @@ class PostService {
 
   findPost = async (postId) => {
     try {
-      if (typeof postId !== Number || postId == 'undefined' || postId == '[object Object]') {
+      if (postId == 'undefined' || postId == '[object Object]') {
         const errorMiddleware = new ErrorMiddleware(401, ` ${postId} undefined 들어왔음`);
         throw errorMiddleware
       }
@@ -71,7 +71,7 @@ class PostService {
   updatePost = async (postId, userId, text, images) => {
     try {
       validatePost(text);
-      if (typeof postId !== Number || postId == 'undefined' || postId == '[object Object]') {
+      if (postId == 'undefined' || postId == '[object Object]') {
         const errorMiddleware = new ErrorMiddleware(401, ` ${postId} undefined 들어왔음`);
         throw errorMiddleware
       }
@@ -89,7 +89,7 @@ class PostService {
   deletePost = async (postId) => {
     try {
 
-      if (typeof postId !== Number || postId == 'undefined' || postId == '[object Object]') {
+      if (postId == 'undefined' || postId == '[object Object]') {
         const errorMiddleware = new ErrorMiddleware(401, ` ${postId} undefined 들어왔음`);
         throw errorMiddleware
       }
