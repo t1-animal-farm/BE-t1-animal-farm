@@ -36,7 +36,7 @@ class PostService {
   findPost = async (postId) => {
     try {
       if (typeof postId !== Number || postId == 'undefined' || postId == '[object Object]') {
-        const errorMiddleware = new ErrorMiddleware(401, 'undefined 들어왔음');
+        const errorMiddleware = new ErrorMiddleware(401, ` ${postId} undefined 들어왔음`);
         throw errorMiddleware
       }
       let postImage = await this.postRepository.findPost(postId);
@@ -72,7 +72,7 @@ class PostService {
     try {
       validatePost(text);
       if (typeof postId !== Number || postId == 'undefined' || postId == '[object Object]') {
-        const errorMiddleware = new ErrorMiddleware(401, 'undefined 들어왔음');
+        const errorMiddleware = new ErrorMiddleware(401, ` ${postId} undefined 들어왔음`);
         throw errorMiddleware
       }
 
@@ -89,8 +89,8 @@ class PostService {
   deletePost = async (postId) => {
     try {
 
-      if (typeof postId !== Number || postId == 'undefined') {
-        const errorMiddleware = new ErrorMiddleware(401, 'undefined 들어왔음');
+      if (typeof postId !== Number || postId == 'undefined' || postId == '[object Object]') {
+        const errorMiddleware = new ErrorMiddleware(401, ` ${postId} undefined 들어왔음`);
         throw errorMiddleware
       }
       await this.postRepository.deleteImages(postId);
