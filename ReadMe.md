@@ -24,12 +24,12 @@
 4. 각자 기능 완료하면 깃헙 develop 브랜치로 pull request, conflict 함께 수정 후 merge & pull 하기
 
 
---------------------- .env -------------------------
-PORT=
-DB_USERNAME=
-DB_PW=
-DB_HOST=
-SECRET_KEY=
-ACCESKEYID=
-SECRETKEYID=
+## .env
+*PORT=
+*DB_USERNAME=
+*DB_PW=
+*DB_HOST=
+*SECRET_KEY=
+*ACCESKEYID=
+*SECRETKEYID=
 
