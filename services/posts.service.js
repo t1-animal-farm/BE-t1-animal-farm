@@ -67,12 +67,6 @@ class PostService {
     try {
       validatePost(text);
 
-      let imagesFileName = await this.postRepository.findAllImage({
-        where: {
-          postId,
-        }
-      })
-
       await this.postRepository.deleteImages(postId);
       await this.postRepository.deletePost(postId)
       let imageUrlName = await uploadImageToS3(images)
