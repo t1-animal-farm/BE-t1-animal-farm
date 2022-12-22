@@ -67,7 +67,7 @@ class PostService {
   updatePost = async (postId, userId, text, images) => {
     try {
       validatePost(text);
-      if (typeof postId !== Number || postId == 'undefined' || postId == '[object object]') {
+      if (typeof postId !== Number || postId == 'undefined' || postId == '[object Object]') {
         const errorMiddleware = new ErrorMiddleware(401, 'undefined 들어왔음');
         throw errorMiddleware
       }
