@@ -17,8 +17,8 @@ class SignupRepository {
 
     return signup;
   };
-  findOne = async (nickname, email) => {
-    const isExist = await User.findOne({ where: { nickname, email } });
+  findOne = async (nickname) => {
+    const isExist = await User.findOne({ where: { nickname } });
     return isExist;
   };
 }

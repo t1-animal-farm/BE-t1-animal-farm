@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv').config();
 const cookieParser = require('cookie-parser');
-const cors = require("cors");
+const cors = require('cors');
 
 const { sequelize } = require('./models');
 const indexRouter = require('./routes/index');
@@ -20,8 +20,9 @@ sequelize
   });
 
 const corsOption = {
-  origin: ["http://localhost:3000", "*"],
+  origin: ['http://localhost:3000', '*'],
   credentials: true,
+  // headers: ['Authorization, Content-Type']
 };
 
 app.use(cors(corsOption));

@@ -29,11 +29,11 @@ class SignupService {
    */
 
   registerUser = async (email, nickname, password, confirmPassword) => {
-    const existId = await this.signupRepository.findOne(nickname, email);
+    const existId = await this.signupRepository.findOne(nickname);
     if (existId) {
       const errorMiddleware = new ErrorMiddleware(
         400,
-        '중복된 아이디 또는 닉네임이 존재합니다'
+        '중복된 닉네임이 존재합니다'
       );
       throw errorMiddleware;
     }
