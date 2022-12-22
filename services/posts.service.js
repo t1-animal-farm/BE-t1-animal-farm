@@ -67,7 +67,7 @@ class PostService {
   updatePost = async (postId, userId, text, images) => {
     try {
       validatePost(text);
-      if (typeof postId !== Number) {
+      if (typeof postId !== Number || postId == 'undefined') {
         const errorMiddleware = new ErrorMiddleware(401, 'undefined 들어왔음');
         throw errorMiddleware
       }
@@ -85,12 +85,10 @@ class PostService {
   deletePost = async (postId) => {
     try {
 
-      if (typeof postId !== Number) {
+      if (typeof postId !== Number || postId == 'undefined') {
         const errorMiddleware = new ErrorMiddleware(401, 'undefined 들어왔음');
         throw errorMiddleware
       }
-
-
       await this.postRepository.deleteImages(postId);
       await deleteImageToS3();
       return await this.postRepository.deletePost(postId);
