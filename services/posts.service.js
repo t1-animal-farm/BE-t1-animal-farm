@@ -14,7 +14,7 @@ class PostService {
       const allImage = allPostImage.allImage;
 
       allPost.map((post) => {
-        post.dataValues.imagesUrl = [];
+        post.dataValues.imageUrl = [];
       })
 
       // 각 image row의 postId를 불러와서 allPost의 post row들과 매칭 시킵니다.
@@ -22,7 +22,7 @@ class PostService {
         let postId = image.dataValues.postId
         allPost.map((post) => {
           if (post.dataValues.postId === postId) {
-            post.dataValues.imagesUrl.push(image.dataValues.imageUrl);
+            post.dataValues.imageUrl.push(image.dataValues.imageUrl);
           }
         })
       })
