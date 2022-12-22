@@ -2,6 +2,7 @@ const PostRepository = require('../repositories/posts.repository.js');
 const { validatePost } = require('../middlewares/post.validate.js')
 const uploadImageToS3 = require('../middlewares/uploadImageToS3.js');
 const deleteImageToS3 = require('../middlewares/deleteImageToS3.js');
+const ErrorMiddleware = require('../middlewares/errorMiddleware.js')
 
 class PostService {
   postRepository = new PostRepository();
@@ -66,6 +67,10 @@ class PostService {
   updatePost = async (postId, userId, text, images) => {
     try {
       validatePost(text);
+      if (typeof postId !== Number) {
+        const errorMiddleware = new ErrorMiddleware(401, 'undefined 들어왔음');
+        throw errorMiddleware
+      }
 
       await this.postRepository.deleteImages(postId);
       await this.postRepository.deletePost(postId)
@@ -79,6 +84,13 @@ class PostService {
 
   deletePost = async (postId) => {
     try {
+
+      if (typeof postId !== Number) {
+        const errorMiddleware = new ErrorMiddleware(401, 'undefined 들어왔음');
+        throw errorMiddleware
+      }
+
+
       await this.postRepository.deleteImages(postId);
       await deleteImageToS3();
       return await this.postRepository.deletePost(postId);
