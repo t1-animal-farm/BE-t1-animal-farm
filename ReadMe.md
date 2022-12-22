@@ -1,6 +1,18 @@
 # 프로젝트 소개
 자신이 키우는 반려동물 사진을 올리고 자랑할수 있는 커뮤니티 
 
+# 1조 백엔드 팀 소개
+* 박민수 - comments 담당
+* 박영호 - posts 담당
+* 백수빈 - signup, login 담당
+
+# 백엔드에서 시도한 것들 
+* 3 layer architecture 적용
+* 클래스 문법 사용으로 OOP 반영
+* 프런트에서 잘못된 형식으로 보낸 request로 서버가 셧다운 되지 않도록 에러미들웨어 적용, try catch로 에러 잡기  
+* 깃 전략 (develop 브랜치로 머지하고 최종본 master로 배포하기) 
+* prettier 사용하여 pull request 시 conflict 최소화 
+
 # 백엔드 기술 스택
 * Node.js
 * Express
@@ -22,7 +34,6 @@
 2. 3 layered architecture 사용
 3. prettier 사용으로 컨밴션 맞추기 
 4. 각자 기능 완료하면 깃헙 develop 브랜치로 pull request, conflict 함께 수정 후 merge & pull 하기
-
 
 # .env
 * PORT=
