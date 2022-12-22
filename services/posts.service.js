@@ -35,6 +35,10 @@ class PostService {
 
   findPost = async (postId) => {
     try {
+      if (typeof postId !== Number || postId == 'undefined' || postId == '[object Object]') {
+        const errorMiddleware = new ErrorMiddleware(401, 'undefined 들어왔음');
+        throw errorMiddleware
+      }
       let postImage = await this.postRepository.findPost(postId);
 
       const post = postImage.post;
